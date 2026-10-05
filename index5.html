@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feliz cumpleaños</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Lora:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f0e1;--ter:#b5573a;--ter2:#c9784f;--sobre:#e3c99a;--txt:#5a4632}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--txt);font-family:Lora,Georgia,serif;min-height:100vh;overflow-x:hidden;
+ padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+h1,h2,.pf{font-family:'Playfair Display',Georgia,serif;font-weight:500}
+.hide{display:none!important}
+/* carga */
+#carga{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;z-index:10;transition:opacity .8s}
+#carga h2{color:var(--ter);font-style:italic;font-size:1.6rem}
+#frase{font-style:italic;font-size:.95rem;opacity:.75;min-height:1.3em}
+#corazon{font-size:3.2rem;color:var(--ter);background:none;border:0;margin:22px 0;transition:transform .15s}
+#corazon:active{transform:scale(1.25)}
+.barra{width:62%;height:10px;background:#e8d8bd;border-radius:9px;overflow:hidden}
+#relleno{height:100%;width:0;background:linear-gradient(90deg,var(--ter),var(--ter2));transition:width .5s}
+#pct{font-size:.7rem;opacity:.6}
+/* principal */
+main{max-width:480px;margin:0 auto;padding:36px 22px 50px;text-align:center}
+main h1{color:var(--ter);font-size:1.45rem;line-height:1.3}
+.fecha{font-size:.8rem;letter-spacing:.12em;opacity:.65;margin:8px 0 26px}
+.carrusel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:18px 0 14px}
+.carrusel::-webkit-scrollbar{display:none}
+.pol{flex:0 0 100%;scroll-snap-align:center;display:flex;justify-content:center}
+.marco{position:relative;background:#fff;padding:12px;width:80%;box-shadow:0 8px 22px rgba(90,70,50,.22);transform:rotate(-1.5deg)}
+.pol:nth-child(even) .marco{transform:rotate(1.5deg)}
+.marco img,.final img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center;display:block}
+.cinta{position:absolute;top:-11px;left:50%;width:76px;height:22px;transform:translateX(-50%) rotate(-3deg);
+ background:rgba(201,120,79,.55);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.puntos{margin:12px 0 4px}
+.puntos i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#d9c7a6;margin:0 3px}
+.puntos i.on{background:var(--ter)}
+.onda{margin:18px 0;color:var(--ter2);font-size:1.4rem}
+/* sobre */
+.sobre{position:relative;margin:0 auto;width:100%;min-height:220px;background:linear-gradient(160deg,#efd8aa,#d9b475);border-radius:10px;
+ box-shadow:0 16px 28px rgba(90,70,50,.24), inset 0 0 0 1px rgba(255,255,255,.38);padding:94px 24px 34px;overflow:hidden;
+ transition:background 1s ease,box-shadow 1s ease,padding .9s ease,border-radius 1s ease,min-height .9s ease}
+.sobre:before{content:"";position:absolute;left:0;right:0;top:0;height:118px;background:linear-gradient(165deg,#f4dfb4,#d4ad6e);
+ clip-path:polygon(0 0,100% 0,50% 100%);filter:drop-shadow(0 6px 5px rgba(96,67,36,.18));
+ transform-origin:top center;transition:opacity .8s ease,transform 1s cubic-bezier(.2,.8,.2,1);pointer-events:none}
+.sobre:after{display:none}
+.sobre.abierto{min-height:430px;background:linear-gradient(180deg,#f3e5cf,#ead2ac);border-radius:8px;padding:30px 24px 34px;
+ box-shadow:0 12px 28px rgba(90,70,50,.18), inset 0 0 0 1px rgba(181,87,58,.08)}
+.sobre.abriendo:before,.sobre.abierto:before{opacity:0;transform:translateY(-46px) scaleY(.72)}
+.sobre.abierto:after{opacity:0}
+.sobre .sello{position:relative;z-index:2;width:68px;height:68px;border-radius:50%;border:1px solid rgba(255,236,226,.32);margin:2px auto 0;display:flex;align-items:center;justify-content:center;
+ color:#ffe5dc;font-size:.63rem;font-family:'Playfair Display',Georgia,serif;font-style:italic;letter-spacing:.02em;text-shadow:0 1px 2px rgba(74,24,20,.35);background:radial-gradient(circle at 34% 28%,#df7668 0,#b9473d 42%,#7d1e1d 100%);
+ box-shadow:0 7px 14px rgba(72,34,24,.34), inset 0 2px 3px rgba(255,244,229,.26), inset 0 -5px 9px rgba(79,18,18,.28);animation:lat 2.2s infinite;cursor:pointer;transition:opacity .45s ease,transform .45s ease,box-shadow .3s ease}
+.sobre .sello:before{content:"";position:absolute;inset:7px;border:1px solid rgba(255,226,211,.34);border-radius:50%;pointer-events:none}
+.sobre .sello:after{content:"♥";position:absolute;bottom:9px;font-size:.52rem;opacity:.58;pointer-events:none}
+.sobre .sello:hover{box-shadow:0 9px 18px rgba(72,34,24,.38), inset 0 2px 3px rgba(255,244,229,.3), inset 0 -5px 9px rgba(79,18,18,.26)}
+.sobre.abriendo .sello{opacity:0;transform:translateY(-10px) scale(.92);animation:none}
+.sobre.abriendo p.pista{opacity:0;transform:translateY(-8px)}
+@keyframes lat{50%{transform:scale(1.04)}}
+.sobre p.pista{position:relative;z-index:2;margin-top:16px;font-style:italic;font-size:.86rem;color:var(--ter);transition:opacity .45s ease,transform .45s ease}
+#carta{position:relative;z-index:2;max-height:0;opacity:0;overflow:hidden;transform:translateY(34px) scale(.985);transition:max-height 1.7s ease,opacity 1s ease .15s,transform 1.05s cubic-bezier(.2,.8,.2,1) .08s;text-align:left}
+#carta.abierta{max-height:2400px;opacity:1;transform:translateY(0) scale(1)}
+#carta .texto{white-space:pre-line;line-height:28px;font-size:1rem;padding:1px 0 0;
+ background:linear-gradient(to bottom,transparent 27px,rgba(181,87,58,.12) 27px,rgba(181,87,58,.12) 28px) 0 0/100% 28px repeat-y}
+#carta .cierre{margin-top:20px;text-align:center;color:var(--ter);font-style:italic;font-size:1.15rem;line-height:1.5}
+.brindis{margin-top:26px;opacity:0;transition:opacity 1.4s}
+.brindis.ver{opacity:1}
+.brindis .em{font-size:1.5rem}
+.brindis p{font-size:.9rem;opacity:.8;margin:6px 0 22px}
+.final img{aspect-ratio:1;border-radius:4px;box-shadow:0 6px 18px rgba(90,70,50,.25)}
+.final p{margin-top:12px;font-size:.9rem;font-style:italic}
+footer{margin-top:34px;font-size:.62rem;letter-spacing:.25em;opacity:.45;text-transform:uppercase}
+canvas{position:fixed;inset:0;pointer-events:none;z-index:20}
+</style>
+</head>
+<body>
+
+<!-- ============ EDITA SOLO ESTA PARTE ============ -->
+<script>
+const CONFIG = {
+  nombre: "Sofi",                              // nombre que sale en la pantalla de carga
+  titulo: "Hoy es el cumpleaños de mi persona favorita",
+  fecha: "6 de octubre",
+  // Fotos del carrusel: poné tus archivos en la carpeta "fotos" (podés agregar o quitar líneas)
+  fotos: ["fotos/1.jpeg", "fotos/2.jpeg", "fotos/3.jpeg", "fotos/5.jpeg", "fotos/6.jpeg","fotos/7.jpeg" ],
+  pistaSobre: "Hay algo adentro para vos",
+  carta: `Hay personas que llegan
+por casualidad,
+en un momento cualquiera,
+sin que podamos imaginar
+todo lo que van a significar.
+
+Y entre tantas vueltas que da la vida,
+qué increíble casualidad
+haber coincidido con vos.
+
+Aunque a veces me cueste hacértelo saber,
+estoy profundamente agradecido a la vida
+por haberte puesto en mi camino..
+
+Gracias por tu compañía,
+por tu risa y por hacer mis días más lindos.
+
+Qué suerte la mía
+que aquella casualidad
+haya sido encontrarte a vos.
+
+Ojalá la vida me siga regalando
+muchos momentos a tu lado
+y la suerte de poder disfrutarte
+todos los días.
+
+Y si la vida es una suma de casualidades,
+ojalá la nuestra dure para siempre.`,
+
+  cierre: "Feliz cumpleaños mi gordita hermosa.",
+  brindis: "Por muchos cumpleaños\nmás juntos",
+  fotoFinal: "fotos/4.jpeg",
+  agradecimiento: `Gracias por compartir\ntu vida conmigo. 
+  
+  Fran.`,
+  firma: "Hecho con amor",
+  // Frases de la pantalla de carga (una por cada toque al corazón)
+  frasesCarga: ["Otra vez?", "Un poquito más", "Ya casi...", "¡La última vez!"],
+  tocaCorazon: "Tocá el corazón"
+};
+</script>
+<!-- ============ FIN DE LA PARTE EDITABLE ============ -->
+
+<div id="carga">
+  <h2 id="nom"></h2>
+  <div id="frase"></div>
+  <button id="corazon" aria-label="corazón">♥</button>
+  <div class="barra"><div id="relleno"></div></div>
+  <div id="pct">0%</div>
+</div>
+
+<main id="principal" class="hide">
+  <h1 id="tit"></h1>
+  <div class="fecha" id="fec"></div>
+  <div class="carrusel" id="car"></div>
+  <div class="puntos" id="pun"></div>
+  <div class="onda">∿</div>
+  <div class="sobre" id="sobre">
+    <button class="sello" id="sello">Ábrela</button>
+    <p class="pista" id="pista"></p>
+    <div id="carta"><div class="texto" id="txt"></div><div class="cierre" id="cie"></div></div>
+  </div>
+  <div class="brindis" id="bri">
+    <div class="em">🥂</div><p id="bt"></p>
+    <div class="final"><img id="ff" alt=""><p id="ag"></p></div>
+  </div>
+  <footer id="fir"></footer>
+</main>
+<canvas id="cv" class="hide"></canvas>
+
+<script>
+const $=id=>document.getElementById(id), C=CONFIG;
+const PH="data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='400' height='500'><rect width='400' height='500' fill='#e8d8bd'/><text x='200' y='260' font-size='60' text-anchor='middle' fill='#b5573a'>♥</text></svg>");
+const img=(s)=>`<img src="${s}" alt="" onerror="this.onerror=null;this.src='${PH}'">`;
+const br=t=>t.replace(/\n/g,"<br>");
+
+// textos
+$("nom").textContent=C.nombre; $("frase").textContent=C.tocaCorazon;
+$("tit").textContent=C.titulo; $("fec").textContent=C.fecha; $("pista").textContent=C.pistaSobre;
+$("txt").textContent=C.carta; $("cie").innerHTML=br(C.cierre);
+$("bt").innerHTML=br(C.brindis); $("ag").innerHTML=br(C.agradecimiento); $("fir").textContent=C.firma;
+$("ff").src=C.fotoFinal; $("ff").onerror=function(){this.onerror=null;this.src=PH};
+$("car").innerHTML=C.fotos.map(s=>`<div class="pol"><div class="marco"><span class="cinta"></span>${img(s)}</div></div>`).join("");
+$("pun").innerHTML=C.fotos.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join("");
+$("car").addEventListener("scroll",e=>{
+  const i=Math.round(e.target.scrollLeft/e.target.clientWidth);
+  [...$("pun").children].forEach((p,j)=>p.classList.toggle("on",i===j));
+});
+
+// carga
+let paso=0, cargando=false; const totalToques=C.frasesCarga.length+1;
+$("corazon").onclick=()=>{
+  if(cargando || paso>=totalToques) return;
+  paso++;
+  const p=Math.min(100,Math.round(paso/totalToques*100));
+  $("relleno").style.width=p+"%"; $("pct").textContent=p+"%";
+  $("frase").textContent=C.frasesCarga[Math.min(paso-1,C.frasesCarga.length-1)];
+  if(paso>=totalToques){
+    cargando=true;
+    setTimeout(()=>{
+      $("carga").style.opacity=0;
+      $("principal").classList.remove("hide");
+      setTimeout(() =>$("carga").classList.add("hide"),800);
+    },900);
+  }
+};
+
+// sobre + corazones
+let abriendoSobre=false;
+$("sello").onclick=()=>{
+  if(abriendoSobre) return;
+  abriendoSobre=true;
+  $("sobre").classList.add("abriendo");
+  setTimeout(()=>{
+    $("sello").classList.add("hide"); $("pista").classList.add("hide");
+    $("sobre").classList.add("abierto");
+    $("carta").classList.add("abierta"); corazones();
+    setTimeout(() =>$("bri").classList.add("ver"),1800);
+  },420);
+};
+function dibujarCorazon(x,t){
+  x.beginPath();
+  x.moveTo(0,-6*t);
+  x.bezierCurveTo(-12*t,-18*t,-28*t,-4*t,0,18*t);
+  x.bezierCurveTo(28*t,-4*t,12*t,-18*t,0,-6*t);
+  x.closePath();
+  x.fill();
+}
+function corazones(){
+  const cv=$("cv"),x=cv.getContext("2d");cv.classList.remove("hide");
+  cv.width=innerWidth;cv.height=innerHeight;
+  const col=["#b5573a","#c9784f","#d94b6b","#a64040","#e0a08f"];
+  const ps=Array.from({length:72},()=>({x:Math.random()*cv.width,y:-30-Math.random()*cv.height*.7,
+    t:.34+Math.random()*.32,v:1.4+Math.random()*2.2,r:(Math.random()-.5)*.7,s:(Math.random()-.5)*.018,
+    a:.58+Math.random()*.32,w:Math.random()*6,c:col[Math.random()*col.length|0]}));
+  let f=0; const dur=300, desvanecer=70;
+  (function a(){
+    x.clearRect(0,0,cv.width,cv.height);
+    const salida=f>dur-desvanecer ? Math.max(0,(dur-f)/desvanecer) : 1;
+    ps.forEach(p=>{p.y+=p.v;p.r+=p.s;p.x+=Math.sin(f*.025+p.w)*.75;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.globalAlpha=p.a*salida;x.fillStyle=p.c;dibujarCorazon(x,p.t);x.restore()});
+    if(++f<dur)requestAnimationFrame(a);else{ x.clearRect(0,0,cv.width,cv.height); cv.classList.add("hide"); }
+  })();
+}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
